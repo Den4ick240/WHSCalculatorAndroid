@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scores_nav_graph"
+        app:startDestination="@id/scoreListFragment">
+
+    <fragment
+            android:id="@+id/scoreListFragment"
+            android:name="ru.zhigalov.whscalculator.ui.main.scores.scorelist.ScoreListFragment"
+            android:label="ScoreListFragment" >
+        <action
+                android:id="@+id/action_scoreListFragment_to_newScoreFragment"
+                app:popUpTo="@id/scoreListFragment"
+                app:destination="@id/newScoreFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/newScoreFragment"
+            android:name="ru.zhigalov.whscalculator.ui.main.scores.newscore.NewScoreFragment"
+            android:label="NewScoreFragment" />
+</navigation>

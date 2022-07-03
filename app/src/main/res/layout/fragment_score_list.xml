@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <Button
+            android:id="@+id/addScoreButton"
+            android:layout_width="match_parent"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Contained button"
+            app:icon="@drawable/ic_baseline_add_24"
+            style="@style/Widget.MaterialComponents.Button.Icon" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="ru.zhigalov.whscalculator.ui.main.scores.scorelist.ScoreItemFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.main.scores.scorelist.ScoreListFragment"
+            tools:listitem="@layout/fragment_score_item" />
+</androidx.appcompat.widget.LinearLayoutCompat>

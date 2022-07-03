@@ -16,6 +16,7 @@
             android:hint="Course name">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -30,7 +31,10 @@
             android:hint="Course rating">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/course_rating_text"
                 android:layout_width="match_parent"
+                android:inputType="number"
+                android:maxLength="2"
                 android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -43,6 +47,9 @@
             android:hint="Course PAR">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/par_text"
+                android:inputType="number"
+                android:maxLength="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -58,13 +65,16 @@
             android:hint="Slope rating">
 
         <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/slope_rating_text"
+                android:inputType="number"
+                android:maxLength="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-            android:id="@+id/containedButton"
+            android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="save" />

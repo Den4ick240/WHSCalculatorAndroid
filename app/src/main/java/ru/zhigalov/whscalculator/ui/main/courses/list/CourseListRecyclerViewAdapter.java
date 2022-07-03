@@ -1,22 +1,30 @@
 package ru.zhigalov.whscalculator.ui.main.courses.list;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import ru.zhigalov.whscalculator.databinding.FragmentCourseItemBinding;
+import ru.zhigalov.whscalculator.domain.models.Course;
 
 public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseListRecyclerViewAdapter.ViewHolder> {
+    private List<Course> courses;
+
     public CourseListRecyclerViewAdapter(OnCourseSelectedListener onCourseSelectedListener) {
         this.onCourseSelectedListener = onCourseSelectedListener;
     }
 
+    public void updateItems(List<Course> courses) {
+        this.courses = courses;
+        notifyDataSetChanged();
+    }
+
     public interface OnCourseSelectedListener {
-        void courseSelected(int id);
+        void courseSelected(Course course);
     }
 
     private final OnCourseSelectedListener onCourseSelectedListener;
@@ -30,12 +38,13 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(position);
+        holder.bind(courses.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        if (courses == null) return 0;
+        return courses.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,8 +57,12 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
             listener = onCourseSelectedListener;
         }
 
-        public void bind(int position) {
-            binding.getRoot().setOnClickListener(v -> listener.courseSelected(position));
+        public void bind(Course course) {
+            binding.getRoot().setOnClickListener(v -> listener.courseSelected(course));
+            binding.par.setText(String.format("PAR: %d", course.getPar()));
+            binding.courseRating.setText(String.format("Course rating: %d", course.getCourseRating()));
+            binding.slopeRating.setText(String.format("Slope rating: %d", course.getCourseRating()));
+            binding.name.setText(course.getName());
         }
     }
 }

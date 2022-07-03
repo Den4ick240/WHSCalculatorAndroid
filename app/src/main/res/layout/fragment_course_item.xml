@@ -1,14 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TextView
-            android:layout_width="match_parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Placeholder"
-            />
+            app:layout_constraintEnd_toStartOf="@id/course_handicap"
+            app:layout_constrainedWidth="true"
+            android:text="Course name, Tee name, 18 hole." />
 
+    <TextView
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:id="@+id/course_handicap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/name"
+
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:text="Handicap: 20" />
+
+    <TextView
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:id="@+id/course_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/slope_rating"
+            android:text="Course rating: 20" />
+
+    <TextView
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_marginStart="16dp"
+            app:flow_horizontalBias="0.1"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:id="@+id/slope_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/course_rating"
+            app:layout_constraintEnd_toStartOf="@id/par"
+            android:text="Slope rating: 020" />
+
+
+    <TextView
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_marginStart="16dp"
+            app:flow_horizontalBias="0.1"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:id="@+id/par"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/slope_rating"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="PAR: 20" />
 </androidx.constraintlayout.widget.ConstraintLayout>

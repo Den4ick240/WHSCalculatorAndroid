@@ -7,7 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.151" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.3170289855072464" />
-        <entry key="app/src/main/res/layout/fragment_course_item.xml" value="0.3170289855072464" />
+        <entry key="app/src/main/res/layout/fragment_course_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_course_list.xml" value="0.3170289855072464" />
         <entry key="app/src/main/res/layout/fragment_courses.xml" value="0.3170289855072464" />
         <entry key="app/src/main/res/layout/fragment_courses_nav_host.xml" value="0.3170289855072464" />

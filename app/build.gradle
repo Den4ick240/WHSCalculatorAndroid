@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
-
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -33,11 +33,22 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.dagger:hilt-android:2.42'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
+
+
     def nav_version = "2.5.0"
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
+    def room_version = "2.4.2"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation group: 'io.reactivex.rxjava3', name: 'rxjava', version: '3.1.5'
+
+    implementation "androidx.room:room-rxjava3:$room_version"
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'

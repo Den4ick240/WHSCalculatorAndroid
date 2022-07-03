@@ -20,9 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import dagger.hilt.android.AndroidEntryPoint;
 import ru.zhigalov.whscalculator.ui.main.SectionsPagerAdapter;
 import ru.zhigalov.whscalculator.databinding.ActivityMainBinding;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;

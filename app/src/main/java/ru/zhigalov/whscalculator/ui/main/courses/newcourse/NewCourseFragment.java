@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import java.util.Objects;
-
+import dagger.hilt.android.AndroidEntryPoint;
 import ru.zhigalov.whscalculator.databinding.FragmentNewCourseBinding;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.ui.main.LoadingDialog;
 
+@AndroidEntryPoint
 public class NewCourseFragment extends Fragment implements View.OnClickListener {
 
     private FragmentNewCourseBinding binding;

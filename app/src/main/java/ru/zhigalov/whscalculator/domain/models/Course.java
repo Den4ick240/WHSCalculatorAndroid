@@ -1,15 +1,24 @@
 package ru.zhigalov.whscalculator.domain.models;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class Course implements Serializable {
+    @PrimaryKey
     private final Integer id;
+    @ColumnInfo(name = "name")
     private final String name;
+    @ColumnInfo(name = "slopeRating")
     private final int slopeRating;
+    @ColumnInfo(name = "courseRating")
     private final int courseRating;
+    @ColumnInfo(name = "par")
     private final int par;
 
     public Course(Integer id, String name, int slopeRating, int courseRating, int par) {
@@ -36,7 +45,7 @@ public class Course implements Serializable {
         return par;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -45,7 +54,7 @@ public class Course implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return id == course.id && slopeRating == course.slopeRating && courseRating == course.courseRating && par == course.par && Objects.equals(name, course.name);
+        return slopeRating == course.slopeRating && courseRating == course.courseRating && par == course.par && Objects.equals(id, course.id) && Objects.equals(name, course.name);
     }
 
     @Override

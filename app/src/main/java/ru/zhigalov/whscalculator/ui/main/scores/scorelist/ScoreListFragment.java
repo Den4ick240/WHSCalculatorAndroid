@@ -48,10 +48,16 @@ public class ScoreListFragment extends Fragment implements ScoreListRecyclerView
         binding.addScoreButton.setOnClickListener(this);
         ScoreListViewModel viewModel = new ViewModelProvider(this).get(ScoreListViewModel.class);
         viewModel.getScoresLiveData().observe(getViewLifecycleOwner(), adapter::updateData);
-        viewModel.getHandicapIndexLiveData().observe(getViewLifecycleOwner(), handicapIndex ->
-                binding.handicapIndex.setText(
-                        String.format("Handicap index: %.1f", handicapIndex)
-                ));
+        viewModel.getHandicapIndexLiveData().observe(getViewLifecycleOwner(), handicapIndex -> {
+            if (handicapIndex.isNaN()) {
+                binding.handicapIndex.setVisibility(View.GONE);
+                return;
+            }
+            binding.handicapIndex.setVisibility(View.VISIBLE);
+            binding.handicapIndex.setText(
+                    String.format("Handicap index: %.1f", handicapIndex)
+            );
+        });
         viewModel.initData();
     }
 

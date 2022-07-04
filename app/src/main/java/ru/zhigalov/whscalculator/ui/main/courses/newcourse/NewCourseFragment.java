@@ -82,7 +82,9 @@ public class NewCourseFragment extends Fragment implements View.OnClickListener 
         binding.saveButton.setOnClickListener(this);
 
         viewModel.courseHandicap.observe(getViewLifecycleOwner(), handicap -> binding.courseHandicap.setText(
-                String.format("Course handicap = %.2f", handicap)
+                handicap == null
+                        ? "Fill in all the of fields"
+                        : String.format("Course handicap = %.2f", handicap)
         ));
     }
 
@@ -109,37 +111,12 @@ public class NewCourseFragment extends Fragment implements View.OnClickListener 
         textInputEditText.setText(newText);
     }
 
-//    private void onTextChange(TextInputLayout textInputLayout) {
-//        textInputLayout.setError(null);
-////        setCourse();
-//    }
-
     private void navigateBack() {
         NavHostFragment.findNavController(this).navigateUp();
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-////        setCourse();
-//    }
-
-//    public void setCourse() {
-//        String courseRatingString = binding.courseRatingText.getText().toString();
-//        String parString = binding.parText.getText().toString();
-//        String slopeRatingString = binding.slopeRatingText.getText().toString();
-//        String name = binding.nameText.getText().toString();
-//
-////        viewModel.setCourse(name,
-////                courseRatingString,
-////                slopeRatingString,
-////                parString
-////        );
-//    }
-
     @Override
     public void onClick(View v) {
-//        setCourse();
         viewModel.saveCourse();
         LoadingDialog loadingDialog = new LoadingDialog(requireContext());
         loadingDialog.start();

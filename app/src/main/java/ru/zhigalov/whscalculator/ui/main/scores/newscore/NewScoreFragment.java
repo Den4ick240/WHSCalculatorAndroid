@@ -22,6 +22,8 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import ru.zhigalov.whscalculator.DataSyncViewModel;
+import ru.zhigalov.whscalculator.MainActivity;
 import ru.zhigalov.whscalculator.databinding.FragmentNewScoreBinding;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.models.Score;
@@ -133,7 +135,10 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
         viewModel.saveScore();
         viewModel.saved.observe(getViewLifecycleOwner(), isSaved -> {
             if (isSaved == null) return;
-            if (isSaved) NavHostFragment.findNavController(this).navigateUp();
+            if (isSaved) {
+                new ViewModelProvider(requireActivity()).get(DataSyncViewModel.class).notifyHandicapIndexChanged();
+                NavHostFragment.findNavController(this).navigateUp();
+            }
         });
     }
 

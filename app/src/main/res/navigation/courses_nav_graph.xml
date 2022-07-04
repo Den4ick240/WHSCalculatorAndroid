@@ -6,7 +6,7 @@
     <fragment
             android:id="@+id/coursesFragment"
             android:name="ru.zhigalov.whscalculator.ui.main.courses.CoursesFragment"
-            android:label="CoursesFragment">
+            android:label="Courses">
         <action
                 android:id="@+id/action_coursesFragment_to_newCourseFragment"
                 app:destination="@id/newCourseFragment">
@@ -15,7 +15,7 @@
     <fragment
             android:id="@+id/newCourseFragment"
             android:name="ru.zhigalov.whscalculator.ui.main.courses.newcourse.NewCourseFragment"
-            android:label="NewCourseFragment" >
+            android:label="Add course" >
         <argument
                 android:name="initialCourse"
                 app:argType="ru.zhigalov.whscalculator.domain.models.Course"

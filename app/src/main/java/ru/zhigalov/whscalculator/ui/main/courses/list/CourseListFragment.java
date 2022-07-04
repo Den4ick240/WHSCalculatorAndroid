@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import ru.zhigalov.whscalculator.DataSyncViewModel;
+import ru.zhigalov.whscalculator.MainActivity;
 import ru.zhigalov.whscalculator.databinding.FragmentCourseListBinding;
 import ru.zhigalov.whscalculator.domain.models.Course;
 
@@ -55,7 +57,10 @@ public class CourseListFragment extends Fragment implements CourseListRecyclerVi
                 new CourseListRecyclerViewAdapter(this);
         binding.list.setAdapter(adapter);
         viewModel.getCourseList().observe(getViewLifecycleOwner(), adapter::updateItems);
-        viewModel.initData();
+        new ViewModelProvider(requireActivity()).get(DataSyncViewModel.class)
+                .handicapIndexChanged.observe(getViewLifecycleOwner(),
+                        unused -> viewModel.initData()
+                );
     }
 
     @Override

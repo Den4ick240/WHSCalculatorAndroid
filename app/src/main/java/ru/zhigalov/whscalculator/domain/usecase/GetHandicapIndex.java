@@ -26,12 +26,14 @@ public class GetHandicapIndex {
                 .map(UsedScore::getScore)
                 .mapToInt(this::getHandicapDifferential)
                 .average()
-                .orElse(0);
+                .orElse(Double.NaN);
 
     }
 
     private int getHandicapDifferential(Score score) {
         //TODO: round the right way
-        return (score.getScore() - score.getCourse().getCourseRating()) * 113 / score.getCourse().getSlopeRating();
+        return (int) (
+                (score.getScore() - score.getCourse().getCourseRating()) * 113.0 / score.getCourse().getSlopeRating()
+        );
     }
 }

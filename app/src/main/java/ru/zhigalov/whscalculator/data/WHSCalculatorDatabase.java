@@ -10,7 +10,7 @@ import ru.zhigalov.whscalculator.data.dao.ScoreDao;
 import ru.zhigalov.whscalculator.data.entities.CourseEntity;
 import ru.zhigalov.whscalculator.data.entities.ScoreEntity;
 
-@Database(entities = {CourseEntity.class, ScoreEntity.class}, version = 5)
+@Database(entities = {CourseEntity.class, ScoreEntity.class}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class WHSCalculatorDatabase extends RoomDatabase {
     public abstract CourseDao courseDao();

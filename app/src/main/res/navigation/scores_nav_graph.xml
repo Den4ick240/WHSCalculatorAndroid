@@ -7,7 +7,7 @@
     <fragment
             android:id="@+id/scoreListFragment"
             android:name="ru.zhigalov.whscalculator.ui.main.scores.scorelist.ScoreListFragment"
-            android:label="ScoreListFragment">
+            android:label="Your scores">
         <action
                 android:id="@+id/action_scoreListFragment_to_newScoreFragment"
                 app:popUpTo="@id/scoreListFragment"
@@ -16,7 +16,7 @@
     <fragment
             android:id="@+id/newScoreFragment"
             android:name="ru.zhigalov.whscalculator.ui.main.scores.newscore.NewScoreFragment"
-            android:label="NewScoreFragment">
+            android:label="Add score">
         <argument
                 android:name="initialScore"
                 app:argType="ru.zhigalov.whscalculator.domain.models.Score"

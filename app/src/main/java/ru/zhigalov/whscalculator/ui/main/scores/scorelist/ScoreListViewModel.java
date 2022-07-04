@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -13,11 +12,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import ru.zhigalov.whscalculator.domain.models.UsedScore;
-import ru.zhigalov.whscalculator.domain.repository.ScoreRepository;
+import ru.zhigalov.whscalculator.domain.usecase.GetUsedScores;
 
 @HiltViewModel
 public class ScoreListViewModel extends ViewModel {
-    private final ScoreRepository scoreRepository;
+    private final GetUsedScores getUsedScores;
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<List<UsedScore>> scores = new MutableLiveData<>();
 
@@ -26,8 +25,8 @@ public class ScoreListViewModel extends ViewModel {
     }
 
     @Inject
-    public ScoreListViewModel(ScoreRepository scoreRepository) {
-        this.scoreRepository = scoreRepository;
+    public ScoreListViewModel(GetUsedScores getUsedScores) {
+        this.getUsedScores = getUsedScores;
     }
 
     @Override
@@ -38,8 +37,7 @@ public class ScoreListViewModel extends ViewModel {
 
     public void initScores() {
         disposables.add(
-                scoreRepository.getScores()
-                        .map(list -> list.stream().map(score -> new UsedScore(score, true)).collect(Collectors.toList()))
+                getUsedScores.getUsedScores()
                         .subscribeOn(Schedulers.io()).subscribe(
                                 scores::postValue
                         )

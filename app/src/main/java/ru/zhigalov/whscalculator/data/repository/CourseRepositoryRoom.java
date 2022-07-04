@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Single;
 import ru.zhigalov.whscalculator.data.dao.CourseDao;
 import ru.zhigalov.whscalculator.data.mappers.CourseMapper;
 import ru.zhigalov.whscalculator.domain.models.Course;
@@ -26,7 +26,7 @@ public class CourseRepositoryRoom implements CourseRepository {
     }
 
     @Override
-    public Single<List<Course>> getAllCourses() {
+    public Flowable<List<Course>> getAllCourses() {
         return courseDao
                 .getAllCourses()
                 .map(list ->

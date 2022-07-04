@@ -8,14 +8,14 @@ import androidx.room.Query;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Single;
 import ru.zhigalov.whscalculator.data.entities.CourseEntity;
 
 @Dao
 public interface CourseDao {
     @Query("SELECT * FROM courseentity")
-    Single<List<CourseEntity>> getAllCourses();
+    Flowable<List<CourseEntity>> getAllCourses();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable saveCourse(CourseEntity course);

@@ -1,5 +1,7 @@
 package ru.zhigalov.whscalculator.domain.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 public class UsedScore {
@@ -36,6 +38,7 @@ public class UsedScore {
         return Objects.hash(score, isUsedInHandicapIndex);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "UsedScore{" +

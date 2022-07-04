@@ -1,5 +1,7 @@
 package ru.zhigalov.whscalculator.domain.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -46,6 +48,7 @@ public class Score implements Serializable {
         return Objects.hash(id, score, date, course);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Score{" +

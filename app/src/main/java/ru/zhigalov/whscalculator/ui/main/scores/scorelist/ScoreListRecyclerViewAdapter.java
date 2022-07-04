@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ru.zhigalov.whscalculator.domain.models.Score;
 import ru.zhigalov.whscalculator.domain.models.UsedScore;
 import ru.zhigalov.whscalculator.databinding.FragmentScoreItemBinding;
 

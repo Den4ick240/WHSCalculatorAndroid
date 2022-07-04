@@ -11,12 +11,10 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.models.Score;
-import ru.zhigalov.whscalculator.ui.main.courses.newcourse.NewCourseViewModel;
 
 @HiltViewModel
 public class NewScoreViewModel extends ViewModel {
@@ -50,13 +48,22 @@ public class NewScoreViewModel extends ViewModel {
     }
 
     public void initScore(Score initialScore) {
-        if (score == null)
-            score = initialScore;
+        if (score != null) return;
+        score = initialScore;
+        _course.setValue(score.getCourse());
+        _date.setValue(score.getDate());
+        _scoreText.setValue(Integer.toString(score.getScore()));
     }
 
-    public void setScore(Course course, Date date, String scoreText) {
+    public void setDate(Long date) {
+        _date.setValue(new Date(date));
+    }
+
+    public void setCourse(Course course) {
         _course.setValue(course);
-        _date.setValue(date);
+    }
+
+    public void setScore(String scoreText) {
         _scoreText.setValue(scoreText);
     }
 

@@ -22,5 +22,22 @@
                 app:argType="ru.zhigalov.whscalculator.domain.models.Score"
                 app:nullable="true"
                 android:defaultValue="@null" />
+        <action
+                android:id="@+id/action_newScoreFragment_to_selectCourseFragment"
+                app:popUpTo="@id/newScoreFragment"
+                app:destination="@id/selectCourseFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/selectCourseFragment"
+            android:name="ru.zhigalov.whscalculator.ui.main.courses.list.CourseListFragment"
+            android:label="Select course">
+        <argument
+                android:name="resultCode"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null"
+                />
+
     </fragment>
 </navigation>

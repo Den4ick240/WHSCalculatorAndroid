@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import ru.zhigalov.whscalculator.R;
 import ru.zhigalov.whscalculator.databinding.FragmentScoreListBinding;
 import ru.zhigalov.whscalculator.domain.models.Score;
 import ru.zhigalov.whscalculator.domain.models.UsedScore;
@@ -24,7 +23,6 @@ import ru.zhigalov.whscalculator.domain.models.UsedScore;
 @AndroidEntryPoint
 public class ScoreListFragment extends Fragment implements ScoreListRecyclerViewAdapter.OnScoreClicked, View.OnClickListener {
     private FragmentScoreListBinding binding;
-    private ScoreListViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class ScoreListFragment extends Fragment implements ScoreListRecyclerView
         ScoreListRecyclerViewAdapter adapter = new ScoreListRecyclerViewAdapter(this, requireContext());
         list.setAdapter(adapter);
         binding.addScoreButton.setOnClickListener(this);
-        viewModel = new ViewModelProvider(this).get(ScoreListViewModel.class);
+        ScoreListViewModel viewModel = new ViewModelProvider(this).get(ScoreListViewModel.class);
         viewModel.getScoresLiveData().observe(getViewLifecycleOwner(), adapter::updateData);
         viewModel.initScores();
     }

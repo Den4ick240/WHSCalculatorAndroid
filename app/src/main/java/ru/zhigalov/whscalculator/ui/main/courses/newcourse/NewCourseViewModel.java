@@ -2,17 +2,12 @@ package ru.zhigalov.whscalculator.ui.main.courses.newcourse;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.repository.CourseRepository;

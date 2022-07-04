@@ -17,7 +17,7 @@
             android:layout_marginBottom="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/date"
-            android:hint="Your score">
+            android:hint="Score">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/score_text"
@@ -42,7 +42,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/date_text"
-                android:inputType="date"
+                android:inputType="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -60,13 +60,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/course_text"
-                android:inputType="number"
-                android:maxLength="3"
+                android:inputType="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
                 android:focusableInTouchMode="false" />
 
 

@@ -2,28 +2,18 @@ package ru.zhigalov.whscalculator;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import androidx.annotation.StringRes;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
-
 import dagger.hilt.android.AndroidEntryPoint;
-import ru.zhigalov.whscalculator.ui.main.SectionsPagerAdapter;
 import ru.zhigalov.whscalculator.databinding.ActivityMainBinding;
+import ru.zhigalov.whscalculator.ui.main.SectionsPagerAdapter;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         String currentViewPagerFragmentTag = "f" + binding.viewPager.getCurrentItem();
         Fragment currentViewPagerFragment = getSupportFragmentManager().findFragmentByTag(currentViewPagerFragmentTag);
+        if (currentViewPagerFragment == null) {
+            super.onBackPressed();
+            return;
+        }
         NavController controller = NavHostFragment.findNavController(currentViewPagerFragment);
         if (controller.navigateUp())
             return;

@@ -1,33 +1,36 @@
 package ru.zhigalov.whscalculator.ui.main.scores.newscore;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.text.InputType;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import ru.zhigalov.whscalculator.databinding.FragmentNewScoreBinding;
+import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.models.Score;
 import ru.zhigalov.whscalculator.ui.main.MyTextWatcher;
 
 public class NewScoreFragment extends Fragment implements View.OnClickListener {
+    private static final String CHOSE_COURSE_RESULT_CODE = "choose-course-result-code";
 
     private NewScoreViewModel viewModel;
     private FragmentNewScoreBinding binding;
-    private MaterialDatePicker<Long> datePicker;
 
     public static NewScoreFragment newInstance() {
         return new NewScoreFragment();
@@ -48,34 +51,82 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
         if (initialScore != null)
             viewModel.initScore(initialScore);
 
+        setupCourseInput();
+        setupDateInput();
+        setupScoreInput();
+
+        binding.saveButton.setOnClickListener(this);
+    }
+
+    public void setupScoreInput() {
+        viewModel.scoreTextError.observe(getViewLifecycleOwner(), binding.score::setError);
+        binding.scoreText.addTextChangedListener(new MyTextWatcher(() -> binding.score.setError(null)));
         viewModel.scoreText.observe(getViewLifecycleOwner(), binding.scoreText::setText);
 
-        viewModel.scoreTextError.observe(getViewLifecycleOwner(), binding.score::setError);
+    }
+
+    public void setupDateInput() {
+        viewModel.date.observe(getViewLifecycleOwner(), date -> {
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(requireContext());
+            binding.dateText.setText(dateFormat.format(date));
+        });
+
         viewModel.dateError.observe(getViewLifecycleOwner(), binding.date::setError);
-        viewModel.courseError.observe(getViewLifecycleOwner(), binding.course::setError);
-
-        binding.scoreText.addTextChangedListener(new MyTextWatcher(() -> binding.score.setError(null)));
-
-        binding.dateText.setInputType(InputType.TYPE_NULL);
+        binding.dateText.addTextChangedListener(new MyTextWatcher(() -> binding.date.setError(null)));
         binding.dateText.setKeyListener(null);
         binding.dateText.setOnFocusChangeListener((unused, hasFocus) -> {
             if (hasFocus)
                 showDatePicker();
         });
         binding.dateText.setOnClickListener(v ->
-
                 showDatePicker()
         );
+    }
 
+    public void setupCourseInput() {
+        viewModel.courseError.observe(getViewLifecycleOwner(), binding.course::setError);
+        viewModel.course.observe(getViewLifecycleOwner(), course ->
+                binding.courseText.setText(
+                        course == null ? null : course.getName()
+                ));
+        binding.courseText.addTextChangedListener(new MyTextWatcher(() -> binding.course.setError(null)));
+        binding.courseText.setKeyListener(null);
 
-        binding.saveButton.setOnClickListener(this);
+        binding.courseText.setOnFocusChangeListener((unused, hasFocus) -> {
+            if (hasFocus) navigateToChooseCourse();
+        });
+        binding.courseText.setOnClickListener(v -> navigateToChooseCourse());
+
+        NavBackStackEntry navBackStackEntry =
+                Objects.requireNonNull(NavHostFragment.findNavController(this).getCurrentBackStackEntry());
+        navBackStackEntry
+                .getSavedStateHandle()
+                .getLiveData(CHOSE_COURSE_RESULT_CODE)
+                .observe(getViewLifecycleOwner(), course -> viewModel.setCourse((Course) course)
+                );
+    }
+
+    public void navigateToChooseCourse() {
+        NewScoreFragmentDirections.ActionNewScoreFragmentToSelectCourseFragment action =
+                NewScoreFragmentDirections.actionNewScoreFragmentToSelectCourseFragment();
+        action.setResultCode(CHOSE_COURSE_RESULT_CODE);
+        NavHostFragment.findNavController(this).navigate(action);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        setScore();
+    }
+
+    private void setScore() {
+        Editable editable = binding.scoreText.getText();
+        viewModel.setScore(
+                editable == null ? null : editable.toString());
     }
 
     @Override
     public void onClick(View v) {
-        viewModel.setScore(
-                null, null, binding.scoreText.getText().toString()
-        );
         viewModel.saveScore();
     }
 
@@ -83,8 +134,7 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
         long today = MaterialDatePicker.todayInUtcMilliseconds();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
-        calendar.set(Calendar.MONTH, Calendar.JANUARY);
-//        calendar.set(Calendar.YEAR, 2020); //TODO: get rid of magic numbers
+        calendar.set(Calendar.YEAR, 2020); //TODO: get rid of magic numbers
         long start = calendar.getTimeInMillis(); //TODO: and refactor this whole method
         calendar.setTimeInMillis(today);
         long end = calendar.getTimeInMillis();
@@ -92,11 +142,11 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
         CalendarConstraints build = new CalendarConstraints.Builder()
                 .setStart(start)
                 .setEnd(end).build();
-        datePicker =
-                MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Select date")
-                        .setCalendarConstraints(build)
-                        .build();
-        datePicker.show(getParentFragmentManager(), "teg"); //TODO: proper tag
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                .setCalendarConstraints(build)
+                .build();
+        datePicker.addOnPositiveButtonClickListener(viewModel::setDate);
+        datePicker.show(getParentFragmentManager(), "date-picker-tag"); //TODO: proper tag
     }
 }

@@ -47,7 +47,7 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
         return courses.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final FragmentCourseItemBinding binding;
         private final OnCourseSelectedListener listener;
 

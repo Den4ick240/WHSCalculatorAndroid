@@ -4,8 +4,6 @@ package ru.zhigalov.whscalculator.ui.main;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import ru.zhigalov.whscalculator.ui.main.courses.newcourse.NewCourseFragment;
-
 public class MyTextWatcher implements TextWatcher {
     public interface OnTextChanged {
         void onTextChanged();

@@ -57,6 +57,7 @@ public class CourseListFragment extends Fragment implements CourseListRecyclerVi
                 new CourseListRecyclerViewAdapter(this);
         binding.list.setAdapter(adapter);
         viewModel.getCourseList().observe(getViewLifecycleOwner(), adapter::updateItems);
+        viewModel.initData();
         new ViewModelProvider(requireActivity()).get(DataSyncViewModel.class)
                 .handicapIndexChanged.observe(getViewLifecycleOwner(),
                         unused -> viewModel.initData()

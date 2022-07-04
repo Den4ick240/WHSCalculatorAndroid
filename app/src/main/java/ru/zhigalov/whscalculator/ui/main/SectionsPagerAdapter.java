@@ -22,8 +22,6 @@ import ru.zhigalov.whscalculator.ui.main.scores.scorelist.ScoreListFragment;
  */
 public class SectionsPagerAdapter extends FragmentStateAdapter {
 
-    @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
 
     public SectionsPagerAdapter(Lifecycle context, FragmentManager fm) {
         super(fm , context);
@@ -34,17 +32,17 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-//            return ScoreListFragment.newInstance();
             return new ScoresNavHostFragment();
         }
         if (position == 1) {
             return new CoursesNavHostFragment();
         }
-        return PlaceholderFragment.newInstance(position + 1);
+        return  null;
     }
 
     @Override
     public int getItemCount() {
         return 2;
     }
+
 }

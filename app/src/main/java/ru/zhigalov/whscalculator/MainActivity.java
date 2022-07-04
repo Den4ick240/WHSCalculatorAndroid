@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    @StringRes
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
         binding.viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         new TabLayoutMediator(tabs, binding.viewPager,
-                (tab, position) -> tab.setText("O" + position)).attach();
+                (tab, position) -> tab.setText(getTabText(position))).attach();
+    }
+
+    private String getTabText(int position) {
+        return getResources().getString(TAB_TITLES[position]);
     }
 
     @Override

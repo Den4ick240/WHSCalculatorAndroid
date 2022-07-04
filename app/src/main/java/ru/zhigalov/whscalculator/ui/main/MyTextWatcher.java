@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 
 public class MyTextWatcher implements TextWatcher {
     public interface OnTextChanged {
-        void onTextChanged();
+        void onTextChanged(String text);
     }
 
     public MyTextWatcher(OnTextChanged onTextChanged) {
@@ -25,6 +25,6 @@ public class MyTextWatcher implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        onTextChanged.onTextChanged();
+        onTextChanged.onTextChanged(s.toString());
     }
 }

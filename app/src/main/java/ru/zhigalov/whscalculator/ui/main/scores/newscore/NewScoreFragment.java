@@ -62,7 +62,7 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
 
     public void setupScoreInput() {
         viewModel.scoreTextError.observe(getViewLifecycleOwner(), binding.score::setError);
-        binding.scoreText.addTextChangedListener(new MyTextWatcher(() -> binding.score.setError(null)));
+        binding.scoreText.addTextChangedListener(new MyTextWatcher(text -> binding.score.setError(null)));
         viewModel.scoreText.observe(getViewLifecycleOwner(), binding.scoreText::setText);
 
     }
@@ -74,7 +74,7 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
         });
 
         viewModel.dateError.observe(getViewLifecycleOwner(), binding.date::setError);
-        binding.dateText.addTextChangedListener(new MyTextWatcher(() -> binding.date.setError(null)));
+        binding.dateText.addTextChangedListener(new MyTextWatcher(text -> binding.date.setError(null)));
         binding.dateText.setKeyListener(null);
         binding.dateText.setOnFocusChangeListener((unused, hasFocus) -> {
             if (hasFocus)
@@ -91,7 +91,7 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
                 binding.courseText.setText(
                         course == null ? null : course.getName()
                 ));
-        binding.courseText.addTextChangedListener(new MyTextWatcher(() -> binding.course.setError(null)));
+        binding.courseText.addTextChangedListener(new MyTextWatcher(text -> binding.course.setError(null)));
         binding.courseText.setKeyListener(null);
 
         binding.courseText.setOnFocusChangeListener((unused, hasFocus) -> {

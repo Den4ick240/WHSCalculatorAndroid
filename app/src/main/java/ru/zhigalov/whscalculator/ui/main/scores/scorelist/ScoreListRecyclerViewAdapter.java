@@ -3,58 +3,77 @@ package ru.zhigalov.whscalculator.ui.main.scores.scorelist;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import ru.zhigalov.whscalculator.ui.main.scores.scorelist.placeholder.PlaceholderContent.PlaceholderItem;
+import ru.zhigalov.whscalculator.domain.models.Score;
+import ru.zhigalov.whscalculator.domain.models.UsedScore;
 import ru.zhigalov.whscalculator.databinding.FragmentScoreItemBinding;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class ScoreListRecyclerViewAdapter extends RecyclerView.Adapter<ScoreListRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    interface OnScoreClicked {
+        void onScoreClicked(UsedScore score);
+    }
 
-    public ScoreListRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    private final OnScoreClicked onScoreClicked;
+
+
+    private List<UsedScore> scores;
+    private final Context context;
+
+    public ScoreListRecyclerViewAdapter(OnScoreClicked onScoreClicked, Context context) {
+        this.onScoreClicked = onScoreClicked;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentScoreItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+        return new ViewHolder(
+                FragmentScoreItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), onScoreClicked);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.bind(scores.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if (scores == null) return 0;
+        return scores.size();
+    }
+
+    public void updateData(List<UsedScore> list) {
+        scores = list;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+        private final FragmentScoreItemBinding binding;
+        private final OnScoreClicked onScoreClicked;
 
-        public ViewHolder(FragmentScoreItemBinding binding) {
+        public ViewHolder(FragmentScoreItemBinding binding, OnScoreClicked onScoreClicked) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            this.binding = binding;
+            this.onScoreClicked = onScoreClicked;
         }
 
-        @NonNull
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public void bind(UsedScore score) {
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+            binding.isUsed.setVisibility(score.getUsedInHandicapIndex() ? View.VISIBLE : View.INVISIBLE);
+            binding.score.setText(String.format("Score: %d", score.getScore().getScore()));
+            binding.name.setText(score.getScore().getCourse().getName());
+            binding.date.setText(dateFormat.format(score.getScore().getDate()));
+
+            binding.getRoot().setOnClickListener(v -> onScoreClicked.onScoreClicked(score));
+
         }
     }
 }

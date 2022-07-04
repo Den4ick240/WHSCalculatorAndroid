@@ -1,7 +1,89 @@
 package ru.zhigalov.whscalculator.ui.main.scores.newscore;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import ru.zhigalov.whscalculator.domain.models.Course;
+import ru.zhigalov.whscalculator.domain.models.Score;
+import ru.zhigalov.whscalculator.ui.main.courses.newcourse.NewCourseViewModel;
+
+@HiltViewModel
 public class NewScoreViewModel extends ViewModel {
+    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final MutableLiveData<Boolean> saved = new MutableLiveData<>(false);
+    private Score score = null;
+
+    private final MutableLiveData<Course> _course = new MutableLiveData<>();
+    private final MutableLiveData<String> _scoreText = new MutableLiveData<>();
+    private final MutableLiveData<Date> _date = new MutableLiveData<>();
+    public final LiveData<Course> course = _course;
+    public final LiveData<String> scoreText = _scoreText;
+    public final LiveData<Date> date = _date;
+
+    private final MutableLiveData<String> _courseError = new MutableLiveData<>();
+    private final MutableLiveData<String> _scoreTextError = new MutableLiveData<>();
+    private final MutableLiveData<String> _dateError = new MutableLiveData<>();
+    public final LiveData<String> courseError = _courseError;
+    public final LiveData<String> scoreTextError = _scoreTextError;
+    public final LiveData<String> dateError = _dateError;
+
+    @Inject
+    public NewScoreViewModel() {
+
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        disposables.clear();
+    }
+
+    public void initScore(Score initialScore) {
+        if (score == null)
+            score = initialScore;
+    }
+
+    public void setScore(Course course, Date date, String scoreText) {
+        _course.setValue(course);
+        _date.setValue(date);
+        _scoreText.setValue(scoreText);
+    }
+
+    public void saveScore() {
+        _courseError.setValue(course.getValue() == null ? "Course must be selected" : null);
+        _dateError.setValue(date.getValue() == null ? "Date must be specified" : null);
+        _scoreTextError.setValue(scoreText.getValue() == null || scoreText.getValue().isEmpty() ?
+                "Score cannot be empty" : null);
+
+        if (_dateError.getValue() != null || _scoreTextError.getValue() != null
+                || _courseError.getValue() != null) {
+            saved.postValue(false);
+            return;
+        }
+
+        score = new Score(
+                score == null ? null : score.getId(),
+                Integer.parseInt(scoreText.getValue()),
+                date.getValue(),
+                course.getValue()
+        );
+
+        disposables.add(
+                Completable.timer(1000, TimeUnit.MILLISECONDS) // TODO: repository call
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(() -> saved.postValue(true))
+        );
+    }
     // TODO: Implement the ViewModel
 }

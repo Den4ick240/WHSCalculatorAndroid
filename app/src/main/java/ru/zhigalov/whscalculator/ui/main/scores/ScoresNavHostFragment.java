@@ -9,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import ru.zhigalov.whscalculator.databinding.FragmentScoresNavHostBinding;
 
+@AndroidEntryPoint
 public class ScoresNavHostFragment extends Fragment {
     @Nullable
     @Override

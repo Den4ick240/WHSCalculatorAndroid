@@ -55,10 +55,7 @@ public class CourseListFragment extends Fragment implements CourseListRecyclerVi
         CourseListRecyclerViewAdapter adapter =
                 new CourseListRecyclerViewAdapter(this);
         binding.list.setAdapter(adapter);
-        viewModel.getCourseList().observe(getViewLifecycleOwner(), courses -> {
-            adapter.updateItems(courses);
-            adapter.notifyDataSetChanged(); //TODO: proper notification
-        });
+        viewModel.getCourseList().observe(getViewLifecycleOwner(), adapter::updateItems);
         viewModel.initData();
     }
 

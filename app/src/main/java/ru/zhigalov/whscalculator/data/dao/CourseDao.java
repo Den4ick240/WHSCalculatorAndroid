@@ -10,17 +10,16 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
-import ru.zhigalov.whscalculator.domain.models.Course;
-import ru.zhigalov.whscalculator.domain.repository.CourseRepository;
+import ru.zhigalov.whscalculator.data.entities.CourseEntity;
 
 @Dao
-public interface CourseDao extends CourseRepository {
-    @Query("SELECT * FROM course")
-    Single<List<Course>> getAllCourses();
+public interface CourseDao {
+    @Query("SELECT * FROM courseentity")
+    Single<List<CourseEntity>> getAllCourses();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable saveCourse(Course course);
+    Completable saveCourse(CourseEntity course);
 
-    @Query("SELECT * FROM course WHERE id = :id")
-    Maybe<Course> getCourseById(int id);
+    @Query("SELECT * FROM courseentity WHERE id = :id")
+    Maybe<CourseEntity> getCourseById(int id);
 }

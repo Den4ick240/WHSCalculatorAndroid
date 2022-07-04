@@ -1,24 +1,15 @@
 package ru.zhigalov.whscalculator.domain.models;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
 public class Course implements Serializable {
-    @PrimaryKey
     private final Integer id;
-    @ColumnInfo(name = "name")
     private final String name;
-    @ColumnInfo(name = "slopeRating")
     private final int slopeRating;
-    @ColumnInfo(name = "courseRating")
     private final int courseRating;
-    @ColumnInfo(name = "par")
     private final int par;
 
     public Course(Integer id, String name, int slopeRating, int courseRating, int par) {

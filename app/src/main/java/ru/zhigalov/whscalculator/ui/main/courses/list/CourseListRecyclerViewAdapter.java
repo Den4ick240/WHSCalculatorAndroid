@@ -20,7 +20,7 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
 
     public void updateItems(List<Course> courses) {
         this.courses = courses;
-        notifyDataSetChanged();
+        notifyDataSetChanged(); //TODO: proper notificaton
     }
 
     public interface OnCourseSelectedListener {

@@ -21,15 +21,29 @@ import ru.zhigalov.whscalculator.domain.repository.CourseRepository;
 public class NewCourseViewModel extends ViewModel {
     private final CourseRepository courseRepository;
 
-    private final MutableLiveData<Course> course = new MutableLiveData<>(null);
     private final MutableLiveData<Boolean> saved = new MutableLiveData<>(false);
+    private Course course = null;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public final LiveData<String> name = Transformations.map(course, course -> course == null ? "" : course.getName());
-    public final LiveData<String> slopeRating = Transformations.map(course, course -> course == null ? "" : Integer.toString(course.getSlopeRating()));
-    public final LiveData<String> courseRating = Transformations.map(course, course -> course == null ? "" : Integer.toString(course.getCourseRating()));
-    public final LiveData<String> par = Transformations.map(course, course -> course == null ? "" : Integer.toString(course.getPar()));
+
+    private final MutableLiveData<String> _name = new MutableLiveData<>();
+    private final MutableLiveData<String> _slopeRating = new MutableLiveData<>();
+    private final MutableLiveData<String> _courseRating = new MutableLiveData<>();
+    private final MutableLiveData<String> _par = new MutableLiveData<>();
+    public final LiveData<String> name = _name;
+    public final LiveData<String> slopeRating = _slopeRating;
+    public final LiveData<String> courseRating = _courseRating;
+    public final LiveData<String> par = _par;
+
+    private final MutableLiveData<String> _nameError = new MutableLiveData<>();
+    private final MutableLiveData<String> _courseRatingError = new MutableLiveData<>();
+    private final MutableLiveData<String> _slopeRatingError = new MutableLiveData<>();
+    private final MutableLiveData<String> _parError = new MutableLiveData<>();
+    public final LiveData<String> nameError = _nameError;
+    public final LiveData<String> courseRatingError = _courseRatingError;
+    public final LiveData<String> slopeRatingError = _slopeRatingError;
+    public final LiveData<String> parError = _parError;
 
     @Inject
     public NewCourseViewModel(CourseRepository courseRepository) {
@@ -43,26 +57,61 @@ public class NewCourseViewModel extends ViewModel {
     }
 
     public void initCourse(Course course) {
-        if (this.course.getValue() == null)
-            this.course.setValue(course);
+        if (this.course != null) return;
+        this.course = course;
+        _name.setValue(course.getName());
+        _par.setValue(Integer.toString(course.getPar()));
+        _slopeRating.setValue(Integer.toString(course.getSlopeRating()));
+        _courseRating.setValue(Integer.toString(course.getCourseRating()));
     }
 
-    public void save(String name, int courseRating, int slopeRating, int par) {
-        Integer id = this.course.getValue() == null ? null : this.course.getValue().getId();
-        Course course = new Course(
-                id,
-                name,
-                slopeRating,
-                courseRating,
-                par
+
+    public void setCourse(String name, String courseRating, String slopeRating, String par) {
+        _name.setValue(name);
+        _par.setValue(par);
+        _courseRating.setValue(courseRating);
+        _slopeRating.setValue(slopeRating);
+
+    }
+
+    public void saveCourse() {
+        if (courseRating.getValue() == null || courseRating.getValue().isEmpty())
+            _courseRatingError.setValue("Course rating cannot be empty.");
+        else
+            _courseRatingError.setValue(null);
+        if (slopeRating.getValue() == null || slopeRating.getValue().isEmpty())
+            _slopeRatingError.setValue("Slope rating cannot be empty.");
+        else
+            _slopeRatingError.setValue(null);
+        if (par.getValue() == null || par.getValue().isEmpty())
+            _parError.setValue("Course PAR cannot be empty.");
+        else
+            _parError.setValue(null);
+        if (name.getValue() == null || name.getValue().isEmpty())
+            _nameError.setValue("Course name cannot be empty.");
+        else
+            _nameError.setValue(null);
+        System.out.println(_nameError.getValue());
+
+        if (courseRatingError.getValue() != null || nameError.getValue() != null || slopeRatingError.getValue() != null || parError.getValue() != null) {
+            saved.postValue(false);
+            return;
+        }
+
+        course = new Course(
+                course == null ? null : course.getId(),
+                name.getValue(),
+                Integer.parseInt(slopeRating.getValue()),
+                Integer.parseInt(courseRating.getValue()),
+                Integer.parseInt(par.getValue())
         );
-        this.course.setValue(course);
 
         disposables.add(
                 courseRepository.saveCourse(course)
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> saved.postValue(true))
         );
+
     }
 
     public LiveData<Boolean> getSavedLiveData() {

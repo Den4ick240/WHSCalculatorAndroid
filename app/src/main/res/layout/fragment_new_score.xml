@@ -1,8 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/constraintLayout"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_weight="2"
+            android:id="@+id/score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/date"
+            android:hint="Your score">
 
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/score_text"
+                android:inputType="number"
+                android:maxLength="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_weight="4"
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toEndOf="@id/score"
+            android:hint="Date">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_text"
+                android:inputType="date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="16dp"
+            android:id="@+id/course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/score"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="Course">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/course_text"
+                android:inputType="number"
+                android:maxLength="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:layout_marginTop="16dp"
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/course"
+            android:text="save" />
 </androidx.constraintlayout.widget.ConstraintLayout>

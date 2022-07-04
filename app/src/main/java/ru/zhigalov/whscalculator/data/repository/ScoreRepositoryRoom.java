@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Flowable;
 import ru.zhigalov.whscalculator.data.dao.ScoreDao;
 import ru.zhigalov.whscalculator.data.mappers.ScoreMapper;
 import ru.zhigalov.whscalculator.domain.models.Score;
@@ -20,11 +20,12 @@ public class ScoreRepositoryRoom implements ScoreRepository {
     }
 
     @Override
-    public Single<List<Score>> getScores() {
-        return scoreDao.getScoresWithCourses().map(scoreAndCourses -> scoreAndCourses.stream()
-                .map(scoreMapper::scoreAndCourseToScore)
-                .collect(Collectors.toList())
-        );
+    public Flowable<List<Score>> getScores() {
+        return scoreDao.getScoresWithCourses()
+                .map(scoreAndCourses -> scoreAndCourses.stream()
+                        .map(scoreMapper::scoreAndCourseToScore)
+                        .collect(Collectors.toList())
+                );
     }
 
     @Override

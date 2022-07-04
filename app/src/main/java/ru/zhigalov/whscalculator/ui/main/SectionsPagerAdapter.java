@@ -6,10 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import ru.zhigalov.whscalculator.ui.main.courses.CoursesNavHostFragment;
 import ru.zhigalov.whscalculator.ui.main.scores.ScoresNavHostFragment;
 public class SectionsPagerAdapter extends FragmentStateAdapter {

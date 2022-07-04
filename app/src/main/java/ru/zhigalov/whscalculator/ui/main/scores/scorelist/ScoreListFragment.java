@@ -38,6 +38,8 @@ public class ScoreListFragment extends Fragment implements ScoreListRecyclerView
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        System.out.println("ScoreListFragment onCViewCreated");
         RecyclerView list = binding.list;
         Context context = list.getContext();
         list.setLayoutManager(new LinearLayoutManager(context));

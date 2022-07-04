@@ -9,7 +9,7 @@ import androidx.room.Transaction;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Flowable;
 import ru.zhigalov.whscalculator.data.entities.ScoreEntity;
 import ru.zhigalov.whscalculator.data.entities.relation.ScoreAndCourse;
 
@@ -17,7 +17,7 @@ import ru.zhigalov.whscalculator.data.entities.relation.ScoreAndCourse;
 public interface ScoreDao {
     @Transaction
     @Query("SELECT * FROM ScoreEntity")
-    Single<List<ScoreAndCourse>> getScoresWithCourses();
+    Flowable<List<ScoreAndCourse>> getScoresWithCourses();
 
 
 

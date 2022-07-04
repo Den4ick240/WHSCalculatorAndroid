@@ -131,6 +131,10 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         setScore();
         viewModel.saveScore();
+        viewModel.saved.observe(getViewLifecycleOwner(), isSaved -> {
+            if (isSaved == null) return;
+            if (isSaved) NavHostFragment.findNavController(this).navigateUp();
+        });
     }
 
     public void showDatePicker() {

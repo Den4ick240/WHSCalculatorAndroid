@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import ru.zhigalov.whscalculator.domain.models.Course;
@@ -22,7 +20,8 @@ public class NewScoreViewModel extends ViewModel {
     private final ScoreRepository scoreRepository;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
-    private final MutableLiveData<Boolean> saved = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> _saved = new MutableLiveData<>(false);
+    public final LiveData<Boolean> saved = _saved;
     private Score score = null;
 
     private final MutableLiveData<Course> _course = new MutableLiveData<>();
@@ -78,7 +77,7 @@ public class NewScoreViewModel extends ViewModel {
 
         if (_dateError.getValue() != null || _scoreTextError.getValue() != null
                 || _courseError.getValue() != null) {
-            saved.postValue(false);
+            _saved.postValue(false);
             return;
         }
 
@@ -90,11 +89,9 @@ public class NewScoreViewModel extends ViewModel {
         );
 
         disposables.add(
-//                Completable.timer(1000, TimeUnit.MILLISECONDS) // TODO: repository call
                 scoreRepository.saveScore(score)
                         .subscribeOn(Schedulers.io())
-                        .subscribe(() -> saved.postValue(true))
+                        .subscribe(() -> _saved.postValue(true))
         );
     }
-    // TODO: Implement the ViewModel
 }

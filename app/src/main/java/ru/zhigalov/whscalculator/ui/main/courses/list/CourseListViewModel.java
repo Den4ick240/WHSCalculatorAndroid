@@ -35,15 +35,11 @@ public class CourseListViewModel extends ViewModel {
         disposables.clear();
     }
 
-    public void loadData() {
+    public void initData() {
         disposables.add(courseRepository.getAllCourses()
                 .subscribeOn(Schedulers.io())
                 .subscribe(courseList::postValue)
         );
     }
 
-    public void initData() {
-        if (courseList.getValue() == null)
-            loadData();
-    }
 }

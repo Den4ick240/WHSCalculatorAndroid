@@ -48,7 +48,11 @@ public class ScoreListFragment extends Fragment implements ScoreListRecyclerView
         binding.addScoreButton.setOnClickListener(this);
         ScoreListViewModel viewModel = new ViewModelProvider(this).get(ScoreListViewModel.class);
         viewModel.getScoresLiveData().observe(getViewLifecycleOwner(), adapter::updateData);
-        viewModel.initScores();
+        viewModel.getHandicapIndexLiveData().observe(getViewLifecycleOwner(), handicapIndex ->
+                binding.handicapIndex.setText(
+                        String.format("Handicap index: %.1f", handicapIndex)
+                ));
+        viewModel.initData();
     }
 
     @Override

@@ -10,15 +10,16 @@ import java.util.List;
 
 import ru.zhigalov.whscalculator.databinding.FragmentCourseItemBinding;
 import ru.zhigalov.whscalculator.domain.models.Course;
+import ru.zhigalov.whscalculator.domain.models.CourseWithHandicap;
 
 public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseListRecyclerViewAdapter.ViewHolder> {
-    private List<Course> courses;
+    private List<CourseWithHandicap> courses;
 
     public CourseListRecyclerViewAdapter(OnCourseSelectedListener onCourseSelectedListener) {
         this.onCourseSelectedListener = onCourseSelectedListener;
     }
 
-    public void updateItems(List<Course> courses) {
+    public void updateItems(List<CourseWithHandicap> courses) {
         this.courses = courses;
         notifyDataSetChanged(); //TODO: proper notificaton
     }
@@ -57,12 +58,14 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
             listener = onCourseSelectedListener;
         }
 
-        public void bind(Course course) {
+        public void bind(CourseWithHandicap courseWithHandicap) {
+            Course course = courseWithHandicap.getCourse();
             binding.getRoot().setOnClickListener(v -> listener.courseSelected(course));
             binding.par.setText(String.format("PAR: %d", course.getPar()));
             binding.courseRating.setText(String.format("Course rating: %d", course.getCourseRating()));
             binding.slopeRating.setText(String.format("Slope rating: %d", course.getCourseRating()));
             binding.name.setText(course.getName());
+            binding.courseHandicap.setText(String.format("Handicap: %.2f", courseWithHandicap.getHandicapIndex()));
         }
     }
 }

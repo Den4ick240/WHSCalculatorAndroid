@@ -11,21 +11,22 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import ru.zhigalov.whscalculator.domain.models.Course;
+import ru.zhigalov.whscalculator.domain.models.CourseWithHandicap;
 import ru.zhigalov.whscalculator.domain.repository.CourseRepository;
+import ru.zhigalov.whscalculator.domain.usecase.GetCoursesWithHandicaps;
 
 @HiltViewModel
 public class CourseListViewModel extends ViewModel {
-    private final CourseRepository courseRepository;
-    private final MutableLiveData<List<Course>> courseList = new MutableLiveData<>();
+    private final GetCoursesWithHandicaps getCoursesWithHandicaps;
+    private final MutableLiveData<List<CourseWithHandicap>> courseList = new MutableLiveData<>();
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public CourseListViewModel(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseListViewModel(GetCoursesWithHandicaps getCoursesWithHandicaps) {
+        this.getCoursesWithHandicaps = getCoursesWithHandicaps;
     }
 
-    public LiveData<List<Course>> getCourseList() {
+    public LiveData<List<CourseWithHandicap>> getCourseList() {
         return courseList;
     }
 
@@ -36,7 +37,7 @@ public class CourseListViewModel extends ViewModel {
     }
 
     public void initData() {
-        disposables.add(courseRepository.getAllCourses()
+        disposables.add(getCoursesWithHandicaps.getCoursesWithHandicaps()
                 .subscribeOn(Schedulers.io())
                 .subscribe(courseList::postValue)
         );

@@ -16,7 +16,7 @@ public class CourseMapper {
 
     public Course courseEntityToCourse(CourseEntity courseEntity) {
         return new Course(
-                courseEntity.id,
+                courseEntity.courseId,
                 courseEntity.name,
                 courseEntity.slopeRating,
                 courseEntity.courseRating,

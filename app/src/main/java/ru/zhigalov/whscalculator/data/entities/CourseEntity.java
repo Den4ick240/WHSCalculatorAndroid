@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 public class CourseEntity implements Serializable {
     @PrimaryKey
-    public final Integer id;
+    public final Integer courseId;
     @ColumnInfo(name = "name")
     public final String name;
     @ColumnInfo(name = "slopeRating")
@@ -19,8 +19,8 @@ public class CourseEntity implements Serializable {
     @ColumnInfo(name = "par")
     public final int par;
 
-    public CourseEntity(Integer id, String name, int slopeRating, int courseRating, int par) {
-        this.id = id;
+    public CourseEntity(Integer courseId, String name, int slopeRating, int courseRating, int par) {
+        this.courseId = courseId;
         this.name = name;
         this.slopeRating = slopeRating;
         this.courseRating = courseRating;

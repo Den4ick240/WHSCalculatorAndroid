@@ -15,9 +15,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.models.Score;
+import ru.zhigalov.whscalculator.domain.repository.ScoreRepository;
 
 @HiltViewModel
 public class NewScoreViewModel extends ViewModel {
+    private final ScoreRepository scoreRepository;
+
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<Boolean> saved = new MutableLiveData<>(false);
     private Score score = null;
@@ -37,8 +40,8 @@ public class NewScoreViewModel extends ViewModel {
     public final LiveData<String> dateError = _dateError;
 
     @Inject
-    public NewScoreViewModel() {
-
+    public NewScoreViewModel(ScoreRepository scoreRepository) {
+        this.scoreRepository = scoreRepository;
     }
 
     @Override
@@ -87,7 +90,8 @@ public class NewScoreViewModel extends ViewModel {
         );
 
         disposables.add(
-                Completable.timer(1000, TimeUnit.MILLISECONDS) // TODO: repository call
+//                Completable.timer(1000, TimeUnit.MILLISECONDS) // TODO: repository call
+                scoreRepository.saveScore(score)
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> saved.postValue(true))
         );

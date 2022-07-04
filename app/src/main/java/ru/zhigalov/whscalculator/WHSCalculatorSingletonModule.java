@@ -11,8 +11,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import ru.zhigalov.whscalculator.data.WHSCalculatorDatabase;
 import ru.zhigalov.whscalculator.data.mappers.CourseMapper;
+import ru.zhigalov.whscalculator.data.mappers.ScoreMapper;
 import ru.zhigalov.whscalculator.data.repository.CourseRepositoryRoom;
+import ru.zhigalov.whscalculator.data.repository.ScoreRepositoryRoom;
 import ru.zhigalov.whscalculator.domain.repository.CourseRepository;
+import ru.zhigalov.whscalculator.domain.repository.ScoreRepository;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -34,4 +37,15 @@ public class WHSCalculatorSingletonModule {
     public CourseMapper provideCourseMapper() {
         return new CourseMapper();
     }
+
+    @Provides
+    public ScoreMapper provideScoreMapper(CourseMapper courseMapper) {
+        return new ScoreMapper(courseMapper);
+    }
+
+    @Provides
+    public ScoreRepository provideScoreRepository(WHSCalculatorDatabase database, ScoreMapper scoreMapper) {
+        return new ScoreRepositoryRoom(database.scoreDao(), scoreMapper);
+    }
+
 }

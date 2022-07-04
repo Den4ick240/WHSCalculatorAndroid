@@ -20,6 +20,6 @@ public interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable saveCourse(CourseEntity course);
 
-    @Query("SELECT * FROM courseentity WHERE id = :id")
+    @Query("SELECT * FROM courseentity WHERE courseId = :id")
     Maybe<CourseEntity> getCourseById(int id);
 }

@@ -21,11 +21,13 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import ru.zhigalov.whscalculator.databinding.FragmentNewScoreBinding;
 import ru.zhigalov.whscalculator.domain.models.Course;
 import ru.zhigalov.whscalculator.domain.models.Score;
 import ru.zhigalov.whscalculator.ui.main.MyTextWatcher;
 
+@AndroidEntryPoint
 public class NewScoreFragment extends Fragment implements View.OnClickListener {
     private static final String CHOSE_COURSE_RESULT_CODE = "choose-course-result-code";
 
@@ -127,6 +129,7 @@ public class NewScoreFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        setScore();
         viewModel.saveScore();
     }
 
